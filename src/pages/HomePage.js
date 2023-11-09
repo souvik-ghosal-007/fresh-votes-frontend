@@ -51,7 +51,7 @@ const HomePage = () => {
           <div className="flex flex-row gap-5 items-center">
             <div
               className="flex items-center px-2 py-1 rounded gap-1 bg-black cursor-pointer"
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/dashboard", { replace: true })}
             >
               <MdDashboard size={18} color="white" />
               <span className="text-[15px] text-white font-semibold">

@@ -5,8 +5,8 @@ import { LuLogOut } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginSuccess, logout } from "../auth/LoginSlice";
-import FormDialog from "../components/FormDialog";
-import Product from "../components/Product";
+import FormDialog from "../components/product/FormDialog";
+import Product from "../components/product/Product";
 
 const DashboardPage = () => {
   const navigate = useNavigate();

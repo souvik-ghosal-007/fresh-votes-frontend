@@ -2,11 +2,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ContentDialog from "../components/ContentDialog";
-import DescriptionEditDialog from "../components/DescriptionEditDialog";
-import Features from "../components/Features";
-import NameEditDialog from "../components/NameEditDialog";
-import PublishedDialog from "../components/PublishedDialog";
+import ContentDialog from "../components/features/ContentDialog";
+import Features from "../components/features/Features";
+import PublishedDialog from "../components/features/PublishedDialog";
+import DescriptionEditDialog from "../components/product/DescriptionEditDialog";
+import NameEditDialog from "../components/product/NameEditDialog";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -24,12 +24,16 @@ const ProductDetailPage = () => {
     useState(false);
   const [openDescriptionDialog, setOpenDescriptionDialog] = useState(false);
 
+  const [authorised, setAuthorised] = useState(false);
+
   const getProduct = () => {
     axios
       .get(`http://localhost:8080/products/${id}`)
       .then((res) => {
         const data = res.data;
         console.log(data);
+
+        if (data.user.id === user.id) setAuthorised(true);
 
         setProduct(data);
       })
@@ -61,14 +65,14 @@ const ProductDetailPage = () => {
           {product.published ? (
             <div
               className={` bg-green-500 px-1 py-0.5 rounded`}
-              onClick={() => setOpenDialog(true)}
+              onClick={() => setOpenDialog(authorised)}
             >
               <span className="text-sm">Published</span>
             </div>
           ) : (
             <div
               className={`bg-gray-300 px-1 py-0.5 rounded`}
-              onClick={() => setOpenDialog(true)}
+              onClick={() => setOpenDialog(authorised)}
             >
               <span className="text-sm">Not Published</span>
             </div>
@@ -90,8 +94,10 @@ const ProductDetailPage = () => {
         <div className="flex flex-col m-4">
           <div className="flex items-center gap-1">
             <span className="text-sm">Name</span>
-            <div onClick={() => setOpenNameEditDialog(true)}>
-              <EditIcon sx={{ fontSize: "13px", cursor: "pointer" }} />
+            <div onClick={() => setOpenNameEditDialog(authorised)}>
+              {authorised && (
+                <EditIcon sx={{ fontSize: "13px", cursor: "pointer" }} />
+              )}
             </div>
           </div>
           <span className="text-2xl font-semibold">{product.name}</span>
@@ -111,8 +117,10 @@ const ProductDetailPage = () => {
         <div className="flex flex-col m-4">
           <div className="flex items-center gap-1">
             <span className="text-sm">Description</span>
-            <div onClick={() => setOpenDescriptionEditDialog(true)}>
-              <EditIcon sx={{ fontSize: "13px", cursor: "pointer" }} />
+            <div onClick={() => setOpenDescriptionEditDialog(authorised)}>
+              {authorised && (
+                <EditIcon sx={{ fontSize: "13px", cursor: "pointer" }} />
+              )}
             </div>
           </div>
           <div>
@@ -149,7 +157,11 @@ const ProductDetailPage = () => {
         )}
 
         <div className="w-full">
-          <Features product={product} getProduct={getProduct} />
+          <Features
+            product={product}
+            getProduct={getProduct}
+            authorised={authorised}
+          />
         </div>
       </div>
     </div>

@@ -1,11 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-const Feature = ({ feature, productId }) => {
+const Feature = ({ feature, productId, authorised }) => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleClick = () => {
-    navigate(`/products/${productId}/${feature.id}`);
+    setSearchParams({ authorised });
+    navigate(`/products/${productId}/features/${feature.id}`);
   };
 
   return (

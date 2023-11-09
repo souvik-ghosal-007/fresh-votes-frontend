@@ -92,9 +92,7 @@ export default function FeatureDialog({ productId, getProduct }) {
           <Button onClick={handleClose}>Cancel</Button>
 
           {disabled ? (
-            <Button onClick={handleCreate} disabled>
-              Create Feature
-            </Button>
+            <Button disabled>Create Feature</Button>
           ) : (
             <Button onClick={handleCreate}>Create Feature</Button>
           )}
